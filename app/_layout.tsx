@@ -1,39 +1,44 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { Stack } from "expo-router";
+import { useEffect, useState } from "react";
+import * as TaskManager from 'expo-task-manager';
+import * as Notifications from 'expo-notifications';
+import { Linking, Platform, Alert } from 'react-native';
+import { requestNotificationPermissions } from '../utils/permissions';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+// TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, ({ data, error, executionInfo }) => {
+//   console.log('Received a notification in the background!');
+//   // Do something with the notification data
+// });
+
+Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK);
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
+  const [isCallActive, setIsCallActive] = useState(false);
+  
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    // Request notification permissions including read access
+    requestNotificationPermissions();
+    
+    console.log("Setting up notification listener");
+    const subscription = Notifications.addNotificationReceivedListener((notif) => {
+      console.log("Notification Received:", notif);
+    
+      if (notif.request.content.title === "Incoming Call") {
+        console.log("Incoming Call detected");
+        setIsCallActive(true);
+      }
+    });
 
-  if (!loaded) {
-    return null;
-  }
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Stack>
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    </Stack>
   );
 }
