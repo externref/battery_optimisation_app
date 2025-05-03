@@ -158,7 +158,6 @@ export default function Index() {
         </View>
       </ScrollView>
 
-      {/* Call popup that appears after 10 seconds */}
       {showCall && batteryLevel !== null && (
         <Call
           callerName="(650) 555-1212"
