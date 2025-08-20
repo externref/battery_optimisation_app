@@ -7,6 +7,8 @@ import { Linking, Platform, Alert } from 'react-native';
 import { requestNotificationPermissions } from '../utils/permissions';
 import { initDatabase } from '../utils/database';
 import { recordBatteryLevel } from '../utils/battery';
+import { ThemeProvider } from "./ThemeContext";
+
 
 const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK';
 const BATTERY_MONITORING_TASK = 'BATTERY-MONITORING-TASK';
@@ -76,8 +78,10 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+   <ThemeProvider>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+    </ThemeProvider>
   );
 }

@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "battery_optimisation_app",
+    "name": "Coolbatt",
     "slug": "battery_optimisation_app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/coolicon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.externref.battery_optimisation_app",
@@ -33,13 +33,13 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/coolicon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-sqlite",
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true
@@ -49,8 +49,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "b45cab1d-b0c2-4306-9880-aa1c4d4a79b3"
+        "projectId": "37b8cb15-98c3-4bee-86ef-55f551812fa2"
       }
-    }
+    },
+    "owner": "amgsy05"
   }
 }

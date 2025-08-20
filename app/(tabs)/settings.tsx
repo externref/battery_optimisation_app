@@ -1,29 +1,33 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { ThemeContext } from "../ThemeContext";
+import { useState } from "react";
 
 export default function Settings() {
-  const [darkMode, setDarkMode] = useState(true);
+  const theme = useContext(ThemeContext);
+   const [darkMode, setDarkMode] = useState(true);
   const [batteryAlerts, setBatteryAlerts] = useState(false);
   const [memoryMonitor, setMemoryMonitor] = useState(true);
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Settings</Text>
 
-      <View style={styles.settingRow}>
-        <Text style={styles.settingText}>
+  return (
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <Text style={[styles.header, { color: theme.colors.text }]}>Settings</Text>
+
+      <View style={[styles.settingRow, { backgroundColor: theme.colors.card }]}>
+        <Text style={[styles.settingText, { color: theme.colors.text }]}>
           <FontAwesome name="moon-o" /> Dark Mode
         </Text>
         <Switch
-          value={darkMode}
-          onValueChange={setDarkMode}
-          thumbColor={darkMode ? "#4CAF50" : "#ccc"}
+          value={theme.darkMode}
+          onValueChange={theme.toggleTheme}
+          thumbColor={theme.darkMode ? theme.colors.toggleActive : theme.colors.toggleInactive}
         />
       </View>
 
-      <View style={styles.settingRow}>
-        <Text style={styles.settingText}>
+      <View style={[styles.settingRow, { backgroundColor: theme.colors.card }]}>
+        <Text style={[styles.settingText, { color: theme.colors.text }]}>
           <FontAwesome name="battery" /> Battery Alerts
         </Text>
         <Switch
@@ -33,8 +37,8 @@ export default function Settings() {
         />
       </View>
 
-      <View style={styles.settingRow}>
-        <Text style={styles.settingText}>
+      <View style={[styles.settingRow, { backgroundColor: theme.colors.card }]}>
+        <Text style={[styles.settingText, { color: theme.colors.text }]}>
           <FontAwesome name="microchip" /> Memory Monitoring
         </Text>
         <Switch
@@ -46,6 +50,7 @@ export default function Settings() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
