@@ -32,7 +32,7 @@ export async function requestNotificationPermissions() {
       "Notification Access Required",
       "This app needs permission to read notifications. Please enable 'Notification Access' for this app in the next screen.",
       [
-        { text: "Cancel", style: "cancel" },
+        { text: "OK", style: "cancel" },
         { 
           text: "Open Notification Settings", 
           onPress: () => {
