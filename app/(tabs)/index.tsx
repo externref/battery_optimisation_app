@@ -92,23 +92,31 @@ export default function Index() {
 
   // 🔋 Optimize Battery Button Logic
   const handleOptimizeBattery = async () => {
-    if (Platform.OS === "android") {
+  if (Platform.OS === "android") {
+    try {
+      // Try to open Power Usage Summary first
+      await IntentLauncher.startActivityAsync("android.intent.action.POWER_USAGE_SUMMARY");
+    } catch (error) {
+      console.log("POWER_USAGE_SUMMARY not available, opening main settings instead:", error);
       try {
+        // Fallback to main Android Settings
         await IntentLauncher.startActivityAsync("android.settings.SETTINGS");
-      } catch (error) {
-        console.log("Error:", error);
+      } catch (err) {
+        console.log("Error opening main settings:", err);
         Alert.alert(
           "Not Supported",
           "Battery settings cannot be opened directly on this device."
         );
       }
-    } else {
-      Alert.alert(
-        "Battery Optimization",
-        "iOS manages battery optimization automatically."
-      );
     }
-  };
+  } else {
+    Alert.alert(
+      "Battery Optimization",
+      "iOS manages battery optimization automatically."
+    );
+  }
+};
+
 
   return (
     <>
